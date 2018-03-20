@@ -18,11 +18,12 @@ Pair of Docker images for Apache2 Webserver and MySQL as a read-replica against 
 
 Once `docker-compose run` is up:
 * The site `local.domain.com` should be available.
-* The database should be accessible via the `localhost` server name on port 3306.
+* The database should be accessible via `127.0.0.1` (not `localhost` oddly) on port 3306 from your Mac.
+* The database will be accessible via `mysql_slave` from the webserver
 
 E.g., your wp-config.php file would have a line like this:
 ```
- define('DB_HOST', 'localhost');
+ define('DB_HOST', 'mysql_slave');
 ```
 
 ## Docker Commands:
