@@ -1,0 +1,17 @@
+#org-wierstewart env vars:
+DB_USER=projects_user
+DB_PASSWORD=projects_password
+DB_HOST=localhost
+DB_PORT=3306
+
+## env in circleci
+#FLY_FTP_HOST=
+#FLY_FTP_PASSWORD=
+#FLY_FTP_PATH=
+#FLY_FTP_USER=
+#WS_ENVIRONMENT=true
+
+##per-project in circleci
+#DB_NAME=domain
+#DOMAIN_NAME=domain.com
+

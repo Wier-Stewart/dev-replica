@@ -1,0 +1,9 @@
+MYSQL_ROOT_PASSWORD=
+REPLICATION_SLAVE=true
+MYSQL_MASTER_TCP_ADDR=master_db.domain.com
+MYSQL_MASTER_TCP_PORT=3306
+MYSQL_ENV_REPLICATION_USER=replication_user
+MYSQL_ENV_REPLICATION_PASS=replication_password
+MYSQL_ENV_READONLY_USER=projects_user
+MYSQL_ENV_READONLY_PASS=projects_password
+MYSQL_DATABASES=database_name1 database_name2 database_name3

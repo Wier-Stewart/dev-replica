@@ -1,0 +1,32 @@
+version: "2"
+
+services:
+
+  mysql_slave:
+    image: wierstewart/mysql_slave:local
+    build: ./mysql_slave
+    container_name: mysql_slave
+    env_file: mysql_slave.env
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - "mysql_slave:/var/lib/mysql"
+    networks:
+      - back-tier
+
+  webserver:
+    image: wierstewart/webserver:local
+    build: ./webserver
+    container_name: webserver
+    env_file: webserver.env
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ~/domains/:/var/www/domains
+    networks:
+      - back-tier
+
+volumes:
+    mysql_slave:
+networks:
+  back-tier:
