@@ -46,9 +46,8 @@ $wpdb->check_tcp_responsiveness = true;
 if( defined( "WP_CLI" ) && WP_CLI ){
     //don't say anything, it can mess with output parsing!
 }else if(stripos($_SERVER['HTTP_HOST'], 'local.')!==false ){ //replicate if local, only, not dev or preview
-    $localdb="mysql_slave";
     $wpdb->add_database(array(
-        "host"     => $localdb,     // If port is other than 3306, use host:port.
+        "host"     => "mysql_slave",     // If port is other than 3306, use host:port.
         "user"     => DB_USER,
         "password" => DB_PASSWORD,
         "name"     => DB_NAME,
@@ -60,7 +59,7 @@ if( defined( "WP_CLI" ) && WP_CLI ){
 }
 
 $wpdb->add_database(array(
-	"host"     => "devdb.wierstewarthosting.com",     // If port is other than 3306, use host:port.
+	"host"     => DB_HOST,     // If port is other than 3306, use host:port.
 	"user"     => DB_USER,
 	"password" => DB_PASSWORD,
 	"name"     => DB_NAME,
