@@ -26,6 +26,56 @@ E.g., your wp-config.php file would have a line like this:
  define('DB_HOST', 'mysql_slave');
 ```
 
+## Wordpress Integration
+The goal is to have all database-reads go to `mysql_slave` locally, and all database-writes
+go to the remote master db. For this, WordPress requires [HyperDB](https://wordpress.org/plugins/hyperdb).
+
+It's not a normal plugin installation, and really only requires 2 files:
+
+#### ./db-config.php
+Here's a mini version of that will work with the usual wp-config.php variables:
+```
+<?php
+//./db-config.php
+$wpdb->save_queries = true;
+$wpdb->persistent = false;
+$wpdb->max_connections = 10;
+$wpdb->check_tcp_responsiveness = true;
+//replicate on local.domain.com only
+
+if( defined( "WP_CLI" ) && WP_CLI ){
+    //don't say anything, it can mess with output parsing!
+}else if(stripos($_SERVER['HTTP_HOST'], 'local.')!==false ){ //replicate if local, only, not dev or preview
+    $localdb="mysql_slave";
+    $wpdb->add_database(array(
+        "host"     => $localdb,     // If port is other than 3306, use host:port.
+        "user"     => DB_USER,
+        "password" => DB_PASSWORD,
+        "name"     => DB_NAME,
+        "write"    => 0,
+        "read"     => 1,        // replication_ok() here is preferred.
+        "dataset"  => "global",
+        "timeout"  => 0.5,
+    ));
+}
+
+$wpdb->add_database(array(
+	"host"     => "devdb.wierstewarthosting.com",     // If port is other than 3306, use host:port.
+	"user"     => DB_USER,
+	"password" => DB_PASSWORD,
+	"name"     => DB_NAME,
+	"write"    => 1,
+	"read"     => 1,
+	"dataset"  => "global",
+	"timeout"  => .9,
+));
+
+```
+
+#### wp-content/db.php
+[save this](https://plugins.svn.wordpress.org/hyperdb/trunk/db.php) to `./wp-content/db.php`
+
+
 ## Docker Commands:
 ### To Start the Environment the First Time
 ```
