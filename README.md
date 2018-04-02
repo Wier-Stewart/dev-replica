@@ -14,9 +14,17 @@ Pair of Docker images for Apache2 Webserver and MySQL as a read-replica against 
 * Edit `docker-compose.yml` file: set the `volumes` line that looks like this ` ~/domains/:/var/www/domains` to fit the pattern: `/local-path/on-mac/to-domains/:/var/www/domains`
 * Set your `/etc/hosts` to be `127.0.0.1  local.domain.com`. If you're on a Mac, this is easier: [Gasmask](https://github.com/2ndalpha/gasmask).
 
+
+#### Build and Run the Docker Containers:
+Build only needs to happen once (usually). See "Docker Lifecycle Commands" at the end for the full commands.
+```
+$ docker-compose build
+$ docker-compose up
+```
+
 #### Server Info
 
-Once `docker-compose run` is up:
+Once `docker-compose up` is up:
 * The site `local.domain.com` should be available.
 * The database should be accessible via `127.0.0.1` (not `localhost` oddly) on port 3306 from your Mac.
 * The database will be accessible via `mysql_slave` from the webserver
@@ -26,7 +34,7 @@ E.g., your wp-config.php file would have a line like this:
  define('DB_HOST', 'mysql_slave');
 ```
 
-## Wordpress Integration
+## Wordpress Integration (Per-Project)
 The goal is to have all database-reads go to `mysql_slave` locally, and all database-writes
 go to the remote master db. For this, WordPress requires [HyperDB](https://wordpress.org/plugins/hyperdb).
 
@@ -75,7 +83,7 @@ $wpdb->add_database(array(
 [save this](https://plugins.svn.wordpress.org/hyperdb/trunk/db.php) to `./wp-content/db.php`
 
 
-## Docker Commands:
+## Docker Lifecycle Commands:
 ### To Start the Environment the First Time
 ```
 $ docker-compose build
