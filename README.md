@@ -11,7 +11,7 @@ Pair of Docker images for Apache2 Webserver and MySQL as a read-replica against 
 * `git clone https://github.com/Wier-Stewart/dev-replica.git`
 * Rename `webserver.sample` to `webserver.env` and fill in the info.
 * Rename `mysql_slave.sample` to `mysql_slave.env` and fill in the info.
-* Edit the `volumes` line ` ~/domains/:/var/www/domains` to fit the pattern: `/local-path/on-mac/to-domains/:/varwww/domain`
+* Edit `docker-compose.yml` file: set the `volumes` line that looks like this ` ~/domains/:/var/www/domains` to fit the pattern: `/local-path/on-mac/to-domains/:/var/www/domains`
 * Set your `/etc/hosts` to be `127.0.0.1  local.domain.com`. If you're on a Mac, this is easier: [Gasmask](https://github.com/2ndalpha/gasmask).
 
 #### Server Info
@@ -33,7 +33,7 @@ go to the remote master db. For this, WordPress requires [HyperDB](https://wordp
 It's not a normal plugin installation, and really only requires 2 files:
 
 #### ./db-config.php
-Here's a mini version of that will work with the usual wp-config.php variables:
+Here's a mini version that will work with the usual wp-config.php variables:
 ```
 <?php
 //./db-config.php
