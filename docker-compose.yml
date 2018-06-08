@@ -10,23 +10,27 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
     volumes:
-      - "mysql_slave:/var/lib/mysql"
-    networks:
-      - back-tier
+      - "mysql_slave_data:/var/lib/mysql"
+#    networks:
+#      - back-tier
 
   webserver:
-    image: wierstewart/webserver:local
-    build: ./webserver
+    image: wierstewart/webserver-nginx:local
+    build: ./webserver-nginx
     container_name: webserver
     env_file: webserver.env
     ports:
       - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
     volumes:
       - ~/domains/:/var/www/domains
-    networks:
-      - back-tier
+#    networks:
+#      - back-tier
+
 
 volumes:
-    mysql_slave:
-networks:
-  back-tier:
+    mysql_slave_data: {}
+
+#networks:
+#  back-tier:
+#    name: back-tier
